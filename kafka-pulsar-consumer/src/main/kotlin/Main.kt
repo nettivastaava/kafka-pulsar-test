@@ -1,25 +1,25 @@
+import config.KafkaConfig.consumerProps
+import config.KafkaConfig.producerProps
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.toJavaDuration
 
-tailrec fun <T> repeatUntilSome(block: () -> T?): T = block() ?: repeatUntilSome(block)
-
 fun main(args: Array<String>) {
-    val consumerProps =
-        mapOf(
-            "bootstrap.servers" to "localhost:9092",
-            "auto.offset.reset" to "earliest",
-            "key.deserializer" to "org.apache.kafka.common.serialization.StringDeserializer",
-            "value.deserializer" to "org.apache.kafka.common.serialization.ByteArrayDeserializer",
-            "group.id" to "someGroup",
-            "security.protocol" to "PLAINTEXT"
-        )
+    val kafkaProducer = KafkaProducer<String, ByteArray>(producerProps)
+    val kafkaConsumer = KafkaConsumer<String, ByteArray>(consumerProps)
 
-    KafkaConsumer<String, ByteArray>(consumerProps).use {
-        it.subscribe(listOf("pulsar-testing-topic"))
-        val message = repeatUntilSome {
-            it.poll(400.milliseconds.toJavaDuration()).map { String(it.value()) }.firstOrNull()
+
+    while (true) {
+        kafkaConsumer.subscribe(listOf("pulsar-testing-topic"))
+        val records = kafkaConsumer.poll(400.milliseconds.toJavaDuration())
+        for (record in records) {
+            val consumedMessage = String(record.value())
+            println("MESSAGE CONSUMED $consumedMessage")
+
+            kafkaProducer.send(ProducerRecord("pulsar-confirmation-topic", "1", consumedMessage.encodeToByteArray()))
+            println("CONFIRMATION SENT FOR $consumedMessage")
         }
-        println("MESSAGE CONSUMED $message")
     }
 }
