@@ -1,4 +1,5 @@
 import org.apache.pulsar.client.api.Consumer
+import org.apache.pulsar.client.api.Producer
 import org.apache.pulsar.client.api.PulsarClient
 
 fun main() {
@@ -13,13 +14,16 @@ fun main() {
         .subscriptionName("my-subscription")
         .subscribe()
 
+    val producer: Producer<ByteArray> = client.newProducer()
+        .topic("confirmation-topic")
+        .create()
+
     while (true) {
         val message = consumer.receive()
         println("Consumed message: ${String(message.data)}")
         consumer.acknowledge(message)
+
+        producer.send(message.data)
+        println("SENT BACK")
     }
-
-
-    client.close()
-    consumer.close()
 }
