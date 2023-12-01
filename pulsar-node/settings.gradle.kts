@@ -1,3 +1,3 @@
 
-rootProject.name = "pulsar-producer"
+rootProject.name = "pulsar-node"
 
