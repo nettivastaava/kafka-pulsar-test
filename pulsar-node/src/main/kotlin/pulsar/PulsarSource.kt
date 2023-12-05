@@ -29,13 +29,15 @@ data class PulsarSource(
 
             val message = consumer.receive()
 
-            consumer.acknowledge(message)
             val stringId = String(message.data)
             if (sentIds.contains(stringId)) {
+                consumer.acknowledge(message)
                 println("Consumed message: $stringId")
                 sentIds.remove(stringId)
                 totalAck += 1
             }
+
+            Thread.sleep(2000)
 
             println("TOTAL SENT: $totalSent, TOTAL ACK: $totalAck, SENT-ACK: ${totalSent - totalAck}")
         }
