@@ -1,7 +1,7 @@
 import org.apache.pulsar.client.api.PulsarClient
-import io.github.cdimascio.dotenv.dotenv
 import pulsar.PulsarDestination
 import pulsar.PulsarSource
+import utils.ApplicationConfigService
 
 fun main() {
     val pulsarUrl = "pulsar://localhost:6650"
@@ -10,11 +10,8 @@ fun main() {
         .serviceUrl(pulsarUrl)
         .build()
 
-    val dotenv = dotenv {
-        filename = ".env"
-    }
-
-    val type = dotenv["TYPE"]
+    val applicationConfig = ApplicationConfigService.getApplicationConfig()
+    val type = applicationConfig.type
 
     if (type == "SOURCE") {
         val pulsarSource = PulsarSource(client = client)

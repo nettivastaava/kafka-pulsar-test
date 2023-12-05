@@ -14,8 +14,9 @@ repositories {
 }
 
 dependencies {
+    implementation("com.sksamuel.hoplite:hoplite-core:2.7.4")
+    runtimeOnly("com.sksamuel.hoplite:hoplite-yaml:2.7.4")
     implementation("org.apache.pulsar:pulsar-client:2.9.3")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     testImplementation(kotlin("test"))
 }
 
