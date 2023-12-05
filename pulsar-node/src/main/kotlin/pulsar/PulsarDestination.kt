@@ -7,7 +7,7 @@ import org.apache.pulsar.client.api.PulsarClient
 data class PulsarDestination(
     val client: PulsarClient,
     val producer: Producer<ByteArray> = client.newProducer()
-        .topic("my-confirmation")
+        .topic("confirmation-topic")
         .create(),
     val consumer: Consumer<ByteArray> = client.newConsumer()
         .topic("my-topic")
