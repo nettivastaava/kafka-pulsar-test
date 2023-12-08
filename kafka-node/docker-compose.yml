@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  kafka-node-destination:
+    image: kafka-node:latest
+    container_name: kafka-node-destination
+    environment:
+      - TYPE=DESTINATION
+  kafka-node-source:
+    image: kafka-node:latest
+    container_name: kafka-node-source
+    environment:
+      - TYPE=SOURCE
+    depends_on:
+      - kafka-node-destination
