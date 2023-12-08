@@ -4,7 +4,7 @@ import pulsar.PulsarSource
 import utils.ApplicationConfigService
 
 fun main() {
-    val pulsarUrl = "pulsar://localhost:6650"
+    val pulsarUrl = "pulsar://pulsar:6650"
 
     val client = PulsarClient.builder()
         .serviceUrl(pulsarUrl)

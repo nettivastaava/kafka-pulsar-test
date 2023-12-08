@@ -3,15 +3,15 @@ version: "3.8"
 services:
   pulsar:
     image: apachepulsar/pulsar:2.10.0
-    ports:
-      - 6650:6650
-      - 8080:8080
+    expose:
+      - 6650
+      - 8080
     command: |
       sh -c "bin/apply-config-from-env.py conf/standalone.conf && bin/pulsar standalone"
-    container_name: pulsar
+    container_name: pulsar-cont
   pulsar-node-destination:
     image: pulsar-node:destination
-    container_name: pulsar-node-destination
+    container_name: pulsar-node-destination-cont
     depends_on:
       - pulsar
   pulsar-node-source:
@@ -19,6 +19,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     image: pulsar-node:source
-    container_name: pulsar-node-source
+    container_name: pulsar-node-source-cont
     depends_on:
       - pulsar-node-destination
+
