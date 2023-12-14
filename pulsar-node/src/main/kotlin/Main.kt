@@ -4,7 +4,9 @@ import pulsar.PulsarSource
 import utils.ApplicationConfigService
 
 fun main() {
-    val pulsarUrl = "pulsar://pulsar:6650"
+    var pulsarUrl = "pulsar://brokers-broker:6650"
+
+    println("[TESTAUS] version is: 5")
 
     while (true) {
         try {
@@ -15,13 +17,13 @@ fun main() {
             val applicationConfig = ApplicationConfigService.getApplicationConfig()
             val type = applicationConfig.type
 
+            println("[TESTAUS] type is: $type")
+
             if (type == "SOURCE") {
                 val pulsarSource = PulsarSource(client = client)
-
                 pulsarSource.start()
             } else {
                 val pulsarDestination = PulsarDestination(client = client)
-
                 pulsarDestination.start()
             }
         } catch (ex: Exception) {

@@ -3,6 +3,9 @@ import kafka.KafkaSource
 import utils.ApplicationConfigService
 
 fun main(args: Array<String>) {
+
+    println("[TESTAUS] version is: 3")
+
     while (true) {
         try {
             val applicationConfig = ApplicationConfigService.getApplicationConfig()
