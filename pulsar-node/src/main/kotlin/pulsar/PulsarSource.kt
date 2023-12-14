@@ -3,6 +3,8 @@ package pulsar
 import org.apache.pulsar.client.api.Consumer
 import org.apache.pulsar.client.api.Producer
 import org.apache.pulsar.client.api.PulsarClient
+import utils.ApplicationConfigService
+import java.text.SimpleDateFormat
 import java.util.*
 
 data class PulsarSource(
@@ -19,25 +21,49 @@ data class PulsarSource(
         .subscribe()
 ) {
     fun start() {
+
+        val applicationConfig = ApplicationConfigService.getApplicationConfig()
+        val timer1 = applicationConfig.timer1
+        val timer2 = applicationConfig.timer2
+        val count = applicationConfig.count
+        var counter = count
+
         while(true) {
+
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            println("Time is: $currentDate")
+
             val generatedId = UUID.randomUUID().toString()
             producer.send(generatedId.toByteArray())
             sentIds.add(generatedId)
             totalSent += 1
 
-            println("SENT")
+            println("GeneratedId: $generatedId")
 
             val message = consumer.receive()
-
             val stringId = String(message.data)
+
+            println("SentIds is: $sentIds")
+
             if (sentIds.contains(stringId)) {
                 consumer.acknowledge(message)
-                println("Consumed message: $stringId")
                 sentIds.remove(stringId)
                 totalAck += 1
+            } else {
+                println("sendIds.contains(stringId) was NOT true")
             }
 
-            Thread.sleep(2000)
+            counter--
+
+            if (counter > 0) {
+                println("sleep ${timer1.toString()} seconds")
+                Thread.sleep(timer1.toLong())
+            } else {
+                println("sleep ${timer2.toString()} seconds")
+                counter = count
+                Thread.sleep(timer2.toLong())
+            }
 
             println("TOTAL SENT: $totalSent, TOTAL ACK: $totalAck, SENT-ACK: ${totalSent - totalAck}")
         }

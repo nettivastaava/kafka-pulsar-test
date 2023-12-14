@@ -15,6 +15,7 @@ data class PulsarDestination(
         .subscribe()
 ) {
     fun start() {
+        println("[TESTAUS] consumer start() called")
         while (true) {
             val message = consumer.receive()
             println("Consumed message: ${String(message.data)}")

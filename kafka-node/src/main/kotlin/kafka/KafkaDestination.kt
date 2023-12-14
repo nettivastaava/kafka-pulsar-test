@@ -10,6 +10,7 @@ import kotlin.time.toJavaDuration
 
 class KafkaDestination() {
     fun start() {
+        println("[TESTAUS] consumer start() called")
         val kafkaProducer = KafkaProducer<String, ByteArray>(producerProps)
         val kafkaConsumer = KafkaConsumer<String, ByteArray>(consumerProps)
         println("Starting a Kafka destination")

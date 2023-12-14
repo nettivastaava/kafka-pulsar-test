@@ -14,12 +14,14 @@ data class KafkaSource(
     var totalAck: Int = 0,
 ) {
     fun start() {
+        println("[TESTAUS] producer start() called")
         val kafkaProducer = KafkaProducer<String, ByteArray>(KafkaConfig.producerProps)
         val kafkaConsumer = KafkaConsumer<String, ByteArray>(KafkaConfig.consumerProps)
         println("Starting a Kafka source")
         while(true) {
             val generatedId = UUID.randomUUID().toString()
 
+            println("[TESTAUS] generatedId is: $generatedId")
             kafkaProducer.send(ProducerRecord("kafka-testing-topic", generatedId.encodeToByteArray()))
             sentIds.add(generatedId)
             totalSent += 1
