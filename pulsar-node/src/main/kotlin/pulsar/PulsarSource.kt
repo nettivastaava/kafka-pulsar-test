@@ -28,6 +28,10 @@ data class PulsarSource(
         val count = applicationConfig.count
         var counter = count
 
+        println("timer1 is: $timer1")
+        println("timer2 is: $timer2")
+        println("count is: $count")
+
         while(true) {
 
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
