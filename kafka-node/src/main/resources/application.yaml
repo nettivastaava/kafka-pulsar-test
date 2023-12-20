@@ -1,1 +1,5 @@
 type: ${TYPE:-SOURCE}
+timer1: ${TIMER1:-1000}
+timer2: ${TIMER2:-40000}
+count: ${COUNT:-3}
+poll: ${POLL:-400}
