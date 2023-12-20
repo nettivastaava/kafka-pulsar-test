@@ -6,10 +6,19 @@ services:
     container_name: kafka-node-destination
     environment:
       - TYPE=DESTINATION
+#    networks:
+#      - kafka-devenv
   kafka-node-source:
     image: kafka-node:latest
     container_name: kafka-node-source
     environment:
       - TYPE=SOURCE
+#    networks:
+#      - kafka-devenv
     depends_on:
       - kafka-node-destination
+
+#networks:
+#  kafka-devenv:
+#    name: devenv
+#    external: true
