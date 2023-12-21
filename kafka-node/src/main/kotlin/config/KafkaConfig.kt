@@ -2,7 +2,7 @@ package config
 
 object KafkaConfig {
     val consumerProps = mapOf(
-        "vnoc-kafka-bootstrap" to "localhost:9092",
+        "bootstrap.servers" to "vnoc-kafka-bootstrap:9092",
         "auto.offset.reset" to "earliest",
         "key.deserializer" to "org.apache.kafka.common.serialization.StringDeserializer",
         "value.deserializer" to "org.apache.kafka.common.serialization.ByteArrayDeserializer",
@@ -10,7 +10,7 @@ object KafkaConfig {
         "security.protocol" to "PLAINTEXT"
     )
     val producerProps = mapOf(
-        "my-cluster-kafka-bootstrap" to "localhost:9092",
+        "bootstrap.servers" to "vnoc-kafka-bootstrap:9092",
         "key.serializer" to "org.apache.kafka.common.serialization.StringSerializer",
         "value.serializer" to "org.apache.kafka.common.serialization.ByteArraySerializer",
         "security.protocol" to "PLAINTEXT"
