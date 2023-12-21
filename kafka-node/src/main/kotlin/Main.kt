@@ -4,7 +4,7 @@ import utils.ApplicationConfigService
 
 fun main(args: Array<String>) {
 
-    println("[TESTAUS] version is: 3")
+    println("[TESTAUS] version is: 6")
 
     while (true) {
         try {

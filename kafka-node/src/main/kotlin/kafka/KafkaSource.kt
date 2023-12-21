@@ -19,6 +19,11 @@ data class KafkaSource(
 ) {
     fun start() {
         println("[TESTAUS] producer start() called")
+
+        println("KafkaConfig.producerProps is: ${KafkaConfig.producerProps.toString()}")
+        println("KafkaConfig.producerProps type is: type($KafkaConfig.producerProps)")
+        println("props for  kafkaProducer: $(ByteArray>(KafkaConfig.producerProps)")
+
         val kafkaProducer = KafkaProducer<String, ByteArray>(KafkaConfig.producerProps)
         val kafkaConsumer = KafkaConsumer<String, ByteArray>(KafkaConfig.consumerProps)
         println("Starting a Kafka source")
