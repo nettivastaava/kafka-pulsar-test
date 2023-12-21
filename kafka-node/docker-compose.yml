@@ -14,7 +14,7 @@ services:
     environment:
       - TYPE=SOURCE
     networks:
-      - kafka-devenv qq
+      - kafka-devenv
     depends_on:
       - kafka-node-destination
 
